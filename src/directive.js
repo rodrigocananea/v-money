@@ -17,17 +17,19 @@ export default function (el, binding) {
   }
 
   el.oninput = function () {
+    el.onfocus = function () {
+      el.select()
+    }
     var positionFromEnd = el.value.length - el.selectionEnd
     el.value = format(el.value, opt)
     positionFromEnd = Math.max(positionFromEnd, opt.suffix.length) // right
     positionFromEnd = el.value.length - positionFromEnd
     positionFromEnd = Math.max(positionFromEnd, opt.prefix.length + 1) // left
-    setCursor(el, positionFromEnd)
     el.dispatchEvent(event('change')) // v-model.lazy
   }
 
   el.onfocus = function () {
-    setCursor(el, el.value.length - opt.suffix.length)
+    el.select()
   }
 
   el.oninput()
